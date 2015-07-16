@@ -9,8 +9,13 @@ URL: https://github.com/zachmayer/r2vec
 BugReports: https://github.com/zachmayer/r2vec/issues
 Description: Use this package to convert character and text data to numeric
     vectors.  Currently supports n-gram and skip-gram tokenization.
-Depends:
+Depends: 
     R (>= 3.1.0)
-Suggests:
+Suggests: 
     testthat
 License: MIT + file LICENSE
+Imports: Matrix,
+    SnowballC,
+    pbapply,
+    stringr,
+    foreach
