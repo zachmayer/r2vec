@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+todo.txt
+.git
+^data-raw$
+^\.travis\.yml$
+^NEWS\.md$
+^cran-comments\.md$
+^CONDUCT\.md$
