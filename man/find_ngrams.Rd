@@ -24,7 +24,8 @@ find_ngrams(
   list(
     c('one'), c('sent', 'one'),
     c('this', 'is', 'sentence', 'two'),
-    c('finally', 'we', 'have', 'a', 'third', 'longer', 'sentence'),
+    c('this', 'is', 'sentence', 'three', 'sentence', 'three'),
+    c('finally', 'we', 'have', 'a', 'fourth', 'longer', 'sentence'),
     character(0),
     NULL,
     NA,
@@ -36,5 +37,7 @@ find_ngrams(
 }
 \references{
 \url{http://stackoverflow.com/questions/16489748/converting-a-list-of-tokens-to-n-grams}
+\url{https://github.com/markvanderloo/stringdist/issues/39}
+\url{https://gist.github.com/markvanderloo/9ae6a15f7d74a0159aec}
 }
 

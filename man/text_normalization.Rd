@@ -2,13 +2,16 @@
 % Please edit documentation in R/text_normalization.R
 \name{text_normalization}
 \alias{text_normalization}
-\title{Preprocess text data for use in PCA}
+\title{Normalize text data}
 \usage{
-text_normalization(x, remove = c("'"), spaces = c("[[:punct:]]",
-  "[[:space:]]+"), remove_accents = FALSE, lowercase = TRUE)
+text_normalization(x, lowercase = TRUE, remove = c("'"),
+  spaces = c("[[:punct:]]+", "[[:space:]]+"), remove_accents = FALSE,
+  trim = TRUE)
 }
 \arguments{
 \item{x}{a character vector}
+
+\item{lowercase}{Decide whether or not to convert the text to lowercase}
 
 \item{remove}{is a character vector (or regex) of characters to remove entirely}
 
@@ -16,12 +19,12 @@ text_normalization(x, remove = c("'"), spaces = c("[[:punct:]]",
 
 \item{remove_accents}{boolean, decide whether or not to remove accents}
 
-\item{lowercase}{Decide whether or not to convert the text to lowercase}
+\item{trim}{boolean, trim the final string before returning}
 }
 \value{
 a character vector
 }
 \description{
-Normalize text data by removing accents, special characters, and normalizing whitespace.
+Normalize text data by removing accents, special characters, and normalizing whitespace.  This can remove a lot of information from your strings.
 }
 

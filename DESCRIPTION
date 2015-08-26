@@ -1,23 +1,29 @@
 Package: r2vec
 Type: Package
 Title: Text data to numeric vectors
-Version: 0.0.0.9000
-Date: 2015-07-16
+Version: 0.0.0.9001
+Date: 2015-08-26
 Authors@R: c(person(c("Zachary", "A."), "Deane-Mayer", role = c("aut", "cre"),
     email = "zach.mayer@gmail.com"))
 URL: https://github.com/zachmayer/r2vec
 BugReports: https://github.com/zachmayer/r2vec/issues
 Description: Use this package to convert character and text data to numeric
     vectors.  Currently supports n-gram and skip-gram tokenization.
-Depends: 
+Depends:
     R (>= 3.1.0)
-Suggests: 
-    testthat
+Suggests:
+    testthat,
+    quanteda,
+    knitr,
+    ggplot2
 License: MIT + file LICENSE
-Imports: Matrix,
+Imports:
+    stringi,
+    Matrix,
     SnowballC,
     pbapply,
-    stringr,
     foreach,
     methods,
-    irlba
+    irlba,
+    Rtsne
+VignetteBuilder: knitr

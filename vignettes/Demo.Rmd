@@ -1,0 +1,130 @@
+---
+title: "Quick Demo of r2vec"
+author: "Zachary Deane-Mayer"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo=FALSE, include=FALSE, results='hide', message=FALSE}
+library(knitr)
+library(r2vec)
+library(quanteda)
+library(ggplot2)
+#opts_chunk$set(dev = 'pdf')
+```
+
+## Text corpus to a sparse matrix
+```{r, echo=TRUE, results='hide', message=FALSE}
+library(r2vec)
+library(quanteda)
+data(inaugTexts)
+train <- inaugTexts[1:50]
+train_vectors <- textVectors(
+  train, 
+  normalize=TRUE, #Clean the text a little
+  split_token=' ', #Split on spaces
+  verbose=FALSE,
+  freqCutoff=.01, #Remove tokens in <1% of documents.  0.01 * 50 = .50
+  absCutoff=5, #Remove tokens in <5 documents
+  spellcheck=FALSE, #Don't spellcheck (not yet supported)
+  remove_stopwords=TRUE, #Remove stopwords after tokenizing
+  stem=TRUE, #Stem after stopword removal
+  ngrams=3, #Calculate 1, 2, 3 grams
+  skips=1, #Calculate skip-1-grams
+  tfidf=TRUE, #Do tfidf transformation after tokenization and n-grams/skip-grams
+  idf=NULL, #Compute idf based on input data
+  stops=NULL, #Use default stopwroids
+  pca=TRUE, #Do PCA after n-grams and skip-grams
+  pca_comp=5, #Use 5 PCA components
+  pca_rotation=NULL #Calculate pca rotation based on training data
+)
+train_vectors$M[1:10, 20:28]
+```
+```{r, echo=FALSE, results='asis'}
+knitr::kable(as.matrix(train_vectors$M[1:10, 20:28]))
+```
+
+## Also includes dense representation via PCA
+```{r, echo=TRUE, results='hide'}
+head(train_vectors$x)
+```
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(train_vectors$x))
+```
+
+## We can apply the same transformation pipeline to a test set
+```{r, echo=TRUE, results='hide'}
+test <- inaugTexts[51:57]
+test_vectors <- predict(train_vectors, test)
+```
+
+Which returns both sparse:
+```{r, echo=TRUE, results='hide'}
+as.matrix(test_vectors$M[1:7, 20:28])
+```
+```{r, echo=FALSE, results='asis'}
+knitr::kable(as.matrix(test_vectors$M[1:7, 20:28]))
+```
+
+and dense represenations of the test data:
+```{r, echo=TRUE, results='hide'}
+head(test_vectors$x)
+```
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(test_vectors$x))
+```
+
+## We can also apply tsne after PCA in the training set
+This gives a non-linear, sparse embedding of the original text data
+```{r, echo=TRUE, results='hide', message=FALSE}
+set.seed(1)
+train_vectors <- textVectors(
+  inaugTexts, 
+  normalize=TRUE, #Clean the text a little
+  split_token=' ', #Split on spaces
+  verbose=FALSE,
+  freqCutoff=.01, #Remove tokens in <1% of documents.  0.01 * 57 = .57
+  absCutoff=5, #Remove tokens in <5 documents
+  spellcheck=FALSE, #Don't spellcheck (not yet supported)
+  remove_stopwords=TRUE, #Remove stopwords after tokenizing
+  stem=TRUE, #Stem after stopword removal
+  ngrams=3, #Calculate 1, 2, 3 grams
+  skips=1, #Calculate skip-1-grams
+  tfidf=TRUE, #Do tfidf transformation after tokenization and n-grams/skip-grams
+  idf=NULL, #Compute idf based on input data
+  stops=NULL, #Use default stopwroids
+  pca=TRUE, #Do PCA after n-grams and skip-grams
+  pca_comp=15, #Use 15 PCA components
+  pca_rotation=NULL, #Calculate pca rotation based on training data
+  tsne=TRUE, #Do tsen
+  tsne_dims=2, #Use 2 dimensions for tsne
+  tsne_perplexity=5 #Use perplexity of 5 for tsne
+  )
+head(train_vectors$tsne_proj)
+```
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(train_vectors$tsne_proj))
+```
+
+The tsne embeddings can make for interesting plots, but they unfortunately cannot be applied to new data.
+```{r, echo=TRUE, results='asis', fig.align = 'center', fig.width=8, fig.height=8}
+library(ggplot2)
+df <- data.frame(
+  train_vectors$tsne_proj,
+  Year = inaugCorpus$documents$Year,
+  President = inaugCorpus$documents$President
+)
+df$Label <- paste0(df$President, ' (', substr(df$Year, 3, 4), ')')
+df$Year <- as.numeric(as.character(df$Year))
+p1 <- ggplot(df, aes(x=TSNE1, y=TSNE2, fill=Year, label=Label)) + 
+  scale_fill_gradient2(low='#d73027', mid='#ffffbf', high='#4575b4', midpoint=1900) + 
+  geom_point(pch=21, size=5, alpha=.80) + 
+  geom_point(pch=21, size=5, colour = "black") + 
+  geom_text(size=3, vjust=1.5, alpha=.80) + 
+  theme_bw()
+print(p1)
+```
