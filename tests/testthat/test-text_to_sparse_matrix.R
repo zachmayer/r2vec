@@ -259,5 +259,5 @@ test_that("Full text to sparse pipeline", {
     expect_equal(p$pca_rotation, model$pca_rotation)
   }
   dev.off()
-  unlink()
+  unlink(plts)
 })
