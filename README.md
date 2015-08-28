@@ -4,3 +4,6 @@
 
 # r2vec
 Tools for vectorizing text data in R.  Currently supports bag-of-words, bag-of-n-grams, and bag-of-skip-grams vectorization.  Includes predict funtions, which are useful for applying vectorizations to new data.
+
+# Vignettes:
+[A quick demo of the package's capabilities](https://cdn.rawgit.com/zachmayer/r2vec/master/inst/doc/Demo.html)
