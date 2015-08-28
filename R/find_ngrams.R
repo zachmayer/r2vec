@@ -30,14 +30,14 @@
 find_ngrams <- function(dat, n, verbose=FALSE){
   stopifnot(is.list(dat))
   stopifnot(is.numeric(n))
-  stopifnot(n>0)
+  stopifnot(n > 0)
   if(n == 1) return(dat)
 
   APPLYFUN <- lapply
-  if(verbose) APPLYFUN <- pblapply
+  if (verbose) APPLYFUN <- pblapply
 
   APPLYFUN(dat, function(y) {
-    if(length(y)<=1) return(y)
+    if(length(y) <= 1) return(y)
     c(y, unlist(lapply(2:n, function(n_i) {
       if(n_i > length(y)) return(NULL)
       do.call(paste, unname(rev(data.frame(embed(y, n_i), stringsAsFactors=FALSE))), quote=FALSE)

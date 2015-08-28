@@ -24,7 +24,7 @@ library(quanteda)
 data(inaugTexts)
 train <- inaugTexts[1:50]
 train_vectors <- textVectors(
-  train, 
+  train,
   normalize=TRUE, #Clean the text a little
   split_token=' ', #Split on spaces
   verbose=FALSE,
@@ -83,7 +83,7 @@ This gives a non-linear, sparse embedding of the original text data
 ```{r, echo=TRUE, results='hide', message=FALSE}
 set.seed(1)
 train_vectors <- textVectors(
-  inaugTexts, 
+  inaugTexts,
   normalize=TRUE, #Clean the text a little
   split_token=' ', #Split on spaces
   verbose=FALSE,
@@ -120,11 +120,11 @@ df <- data.frame(
 )
 df$Label <- paste0(df$President, ' (', substr(df$Year, 3, 4), ')')
 df$Year <- as.numeric(as.character(df$Year))
-p1 <- ggplot(df, aes(x=TSNE1, y=TSNE2, fill=Year, label=Label)) + 
-  scale_fill_gradient2(low='#d73027', mid='#ffffbf', high='#4575b4', midpoint=1900) + 
-  geom_point(pch=21, size=5, alpha=.80) + 
-  geom_point(pch=21, size=5, colour = "black") + 
-  geom_text(size=3, vjust=1.5, alpha=.80) + 
+p1 <- ggplot(df, aes(x=TSNE1, y=TSNE2, fill=Year, label=Label)) +
+  scale_fill_gradient2(low='#d73027', mid='#ffffbf', high='#4575b4', midpoint=1900) +
+  geom_point(pch=21, size=5, alpha=.80) +
+  geom_point(pch=21, size=5, colour = "black") +
+  geom_text(size=3, vjust=1.5, alpha=.80) +
   theme_bw()
 print(p1)
 ```

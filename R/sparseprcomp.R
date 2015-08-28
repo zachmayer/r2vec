@@ -22,7 +22,7 @@ sparseprcomp <- function (x, n = 5, retx = FALSE, fold_in_eigens=FALSE, ...) {
   s$u <- Matrix(s$u)
   if (fold_in_eigens)
     s$v <- s$v %*% Diagonal(x=s$d)
-  s$d <- s$d/sqrt(max(1, nrow(x) - 1))
+  s$d <- s$d / sqrt(max(1, nrow(x) - 1))
   dimnames(s$v) <- list(colnames(x), paste0("PC", seq_len(ncol(s$v))))
   r <- list(sdev = s$d, rotation = s$v, center = FALSE, scale = FALSE)
   if (retx)

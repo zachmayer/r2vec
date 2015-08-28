@@ -59,15 +59,19 @@ text_normalization <- function(
   if(lowercase) x <- stri_trans_tolower(x)
 
   #Remove some characters
-  for(regular_expr in remove){
-    i <- stri_detect_regex(x, regular_expr)
-    x[i] <- stri_replace_all_regex(x[i], regular_expr, "")
+  for (regular_expr in remove){
+    #i <- stri_detect_regex(x, regular_expr)
+    #x[i] <- stri_replace_all_regex(x[i], regular_expr, "")
+    i <- grepl(regular_expr, x)
+    x[i] <- gsub(regular_expr, "", x[i])
   }
 
   #Convert some characters to spaces
-  for(regular_expr in spaces){
-    i <- stri_detect_regex(x, regular_expr)
-    x[i] <- stri_replace_all_regex(x[i], regular_expr, " ")
+  for (regular_expr in spaces){
+    #i <- stri_detect_regex(x, regular_expr)
+    #x[i] <- stri_replace_all_regex(x[i], regular_expr, " ")
+    i <- grepl(regular_expr, x)
+    x[i] <- gsub(regular_expr, " ", x[i])
   }
 
   #Remove accents and special characters

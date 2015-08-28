@@ -9,9 +9,12 @@
 #' @export
 #' @importFrom stringi stri_split_fixed stri_split_regex
 find_tokens <- function(x, split=' ', regex=FALSE){
+  if(split == ''){
+    return(x)
+  }
   if(regex){
-    return(stri_split_fixed(x, split))
-  } else {
     return(stri_split_regex(x, split))
+  } else {
+    return(stri_split_fixed(x, split))
   }
 }

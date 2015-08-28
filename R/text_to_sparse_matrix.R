@@ -207,9 +207,9 @@ textVectors <- function(
   colnames(M) <- bagofwords
 
   #Remove extremely low-frequency words
-  if(freqCutoff>0){
+  if(freqCutoff > 0){
     if(verbose) print('Removing words with a low relative frequency')
-    stopifnot(freqCutoff<1)
+    stopifnot(freqCutoff < 1)
     tmp <- freqCutoff * nrow(M)
     if(tmp > absCutoff){
       if(verbose) print('Replacing absCutoff with higher value based on freqCutoff * nrow(M)')
@@ -219,10 +219,10 @@ textVectors <- function(
     }
   }
 
-  if(absCutoff>0){
-    stopifnot(nrow(M)>absCutoff)
+  if(absCutoff > 0){
+    stopifnot(nrow(M) > absCutoff)
     if(verbose) print('Removing low frequency words')
-    keep <- colSums(sign(M))>absCutoff
+    keep <- colSums(sign(M)) > absCutoff
     M <- M[,keep,drop=FALSE]
     bagofwords <- bagofwords[keep]
   }
@@ -233,7 +233,7 @@ textVectors <- function(
     if(verbose) print('Doing td-idf weighting')
     if(is.null(idf)){
       if(verbose) print('Computing idf weights')
-      idf <- log(nrow(M)/colSums(sign(M)))
+      idf <- log(nrow(M) / colSums(sign(M)))
     } else{
       if(verbose) print('Using pre-defined idf weights')
     }
