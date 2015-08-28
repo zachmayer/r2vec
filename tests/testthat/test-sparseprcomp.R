@@ -13,9 +13,13 @@ test_that("Sparse PCA", {
   model <- sparseprcomp(M, n=cmp, retx=TRUE, fold_in_eigens=FALSE)
   expect_equal(dim(model$rotation), c(ncol(M), cmp))
   expect_equal(dim(model$x), c(nrow(M), cmp))
+  p <- predict(model, M)
+  expect_equal(as.matrix(p), model$x)
 
   cmp <- 47
   model <- sparseprcomp(M, n=cmp, retx=TRUE, fold_in_eigens=TRUE)
   expect_equal(dim(model$rotation), c(ncol(M), cmp))
   expect_equal(dim(model$x), c(nrow(M), cmp))
+  p <- predict(model, M)
+  expect_equal(as.matrix(p), model$x)
 })

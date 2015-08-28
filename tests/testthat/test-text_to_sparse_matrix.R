@@ -226,4 +226,38 @@ test_that("Full text to sparse pipeline", {
   )){
     expect_equal(dim(model$tsne_proj), c(length(inaugTexts), 2))
   }
+
+  #Predicition
+  plts <- tempfile()
+  png(plts)
+  for(model in list(
+    M_plain,
+    M_ngram,
+    M_skip,
+    M_norm,
+    M_stem,
+    M_pca
+  )){
+    plot(model)
+    print(model)
+    p <- predict(model, inaugTexts)
+    expect_equal(p$bagofwords, model$bagofwords)
+    expect_equal(p$M, model$M)
+    expect_equal(p$pca_rotation, model$pca_rotation)
+    expect_equal(p$tsne_proj, model$tsne_proj)
+  }
+
+  for(model in list(
+    M_tnse,
+    M_complicated
+  )){
+    plot(model)
+    print(model)
+    expect_warning(p <- predict(model, inaugTexts))
+    expect_equal(p$bagofwords, model$bagofwords)
+    expect_equal(p$M, model$M)
+    expect_equal(p$pca_rotation, model$pca_rotation)
+  }
+  dev.off(plts)
+  unlink()
 })
