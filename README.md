@@ -1,4 +1,4 @@
-# This package is almost completely superceded with the [text2vec package](https://github.com/dselivanov/text2vec)
+# This package is almost completely superceded by the [text2vec package](https://github.com/dselivanov/text2vec)
 I may continue some prototyping of ideas here, but text2vec does almost everything I wanted to do with r2vec, and does it much better.  I suggest starting there for text mining in R.
 
 [![Travis-CI Build Status](https://travis-ci.org/zachmayer/r2vec.svg?branch=master)](https://travis-ci.org/zachmayer/r2vec)
